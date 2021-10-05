@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+    integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+    crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="./style.css" />
+    <title>Weather App</title>
+</head>
+<body>
+    <div class="container">
+        <br>
+        <form>
+            <input type="text" class="inputLocation" placeholder="City">
+            <button class="get-input" type="submit">
+                <i class="fas fa-thermometer-half"></i>
+            </button>
+        </form>
+        <canvas id="myCanvas" width="1200" height="5"></canvas>
+        <div class="row">
+            <div class="today card col-4"> 
+                <div class="date-holder">
+                    <div class="time" id="time"></div>
+                    <div class="date" id="date"></div>
+                    <div class="others" id="current-condition-data"></div>
+                </div>
+            </div>
+
+            <div class="location-holder card col-4">
+                <div class="timezone" id="timezone"></div>
+                <div class="location" id="location"></div>
+            </div>
+
+            <div class="favorites card col-4">
+                <h5>Recently visited:</h5>
+                <ul class="recents">
+
+                </ul>
+            </div>
+        </div>
+        
+        <div class="forecast card">
+            <div class="row">
+            <div class="today card col-2" id="current-temperature"></div>
+            <div class="weather-forecast col-10" id="weather-forecast">
+                <div class="row">
+                    <div class="weather-forecast-item card col-2"></div>
+                    <div class="weather-forecast-item card col-2"></div>
+                    <div class="weather-forecast-item card col-2"></div>
+                    <div class="weather-forecast-item card col-2"></div>
+                    <div class="weather-forecast-item card col-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="popup" class="popup">
+        <div class="popup_body">
+            <div class="popup_content">
+                <a href="" class="popup_close">X</a>
+                <div class="popup_title">Please choose your city</div>
+                <div class="popup_text">
+                    <ul class="cities">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+<script src="script.js"></script>
+</body>
+</html>

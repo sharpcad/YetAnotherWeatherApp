@@ -67,11 +67,10 @@ function getWeatherFromRecents(e){
 }
 
 function getPositionFromUserInput(e) {
-    e.preventDefault(); //Hindrar sidan att ladda om
+    e.preventDefault(); 
     if (userInput.value !== "") { 
     console.log('YOU ENTERED:  '+userInput.value); //
-    //fetch(`https://api.openweathermap.org/data/2.5/weather?q=${userInput.value}&units=metric&appid=${API_KEY}`).then(res => res.json()).then(data => {
-    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${userInput.value}&limit=5&appid=${API_KEY}`).then(res => res.json()).then(data => {
+    fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${userInput.value}&limit=5&appid=${API_KEY}`).then(res => res.json()).then(data => {
         console.log("Running API call for cities----------------------------");
     console.log(data);
     console.log(data.length);

@@ -114,13 +114,11 @@ li:hover {
     justify-content: space-between;
 }
 .forecast {
-    background: rgba(24, 24, 27, 0.3);
+
     padding: 15px;
     position: fixed;
     bottom: 0%;
-    max-width: 1000px;
-    /* align-items: center;
-    justify-content: center; */
+
 }
 .day {
 display: flex;

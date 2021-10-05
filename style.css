@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
+body  {
+    background-image: url(/assets/pexels-andy-vu-3244513.jpg);
+    font-family: 'Poppins', sans-serif;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center; 
+    overflow: hidden;
+    height: 100vh;
+
+}
+
+.container {
+    /* max-width: 1000px; */
+}
+.card {
+    border: none;
+    background: transparent;
+}
+.container {
+color: #fff;
+}
+.form-control {
+    background: transparent;
+    color: white;
+}
+#inputLocation:active {
+    background: transparent;
+}
+form {
+    min-height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+form .inputLocation,
+form .get-input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: none;
+    background: white;
+}
+form .get-input {
+    color: #cc7a1c;
+    background: #f7fffe;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+form .get-input:hover {
+    background: #cc7a1c;
+    color: white;
+}
+.today {
+display: flex;
+}
+.date-holder {
+    font-weight: 100;
+}
+.date-holder .time {
+    font-size: 70px;
+    font-weight: 100;
+}
+.date-holder #am-pm {
+    font-size: 40px;
+    margin-left: 10px;
+}
+.date-holder .date {
+    font-size: 30px;
+}
+.location-holder {
+    padding: 15px;
+    text-align: center;
+}
+.location-holder .timezone {
+    font-size: 30px;
+    font-weight: 100;
+}
+.location-holder .location {
+    font-size: 15px;
+    font-weight: 400;
+}
+.favorites h5{
+    font-weight: 100;
+    justify-content: center;
+    margin-top: 25px;
+    margin-left: 30px;
+}
+.favorites {
+    font-weight: 100;
+}
+ul {
+    list-style-type: none;
+}
+li:hover {
+    background: rgba(24, 24, 27, 0.3);
+    cursor: pointer;
+}
+.favorite-item {
+    padding-left: 30px;
+}
+.favorite:hover {
+    background: rgba(24, 24, 27, 0.3);
+    cursor: pointer;
+}
+.today .others {
+    display: flex;
+    flex-direction: column;
+    background: rgba(24, 24, 27, 0.3);
+    padding: 15px;
+    margin: 5px 0 ;
+}
+.today .others .condition-data {
+    display: flex;
+    justify-content: space-between;
+}
+.forecast {
+    background: rgba(24, 24, 27, 0.3);
+    padding: 15px;
+    position: fixed;
+    bottom: 0%;
+    max-width: 1000px;
+    /* align-items: center;
+    justify-content: center; */
+}
+.day {
+display: flex;
+justify-content: center;
+}
+.forecast .today {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.forecast .weather-forecast {
+    display: flex;
+}
+.weather-icon {
+    filter: invert(81%) sepia(1%) saturate(0%) hue-rotate(94deg) brightness(95%) contrast(92%);
+    transform: scale(0.6);
+}
+.today {
+    font-weight: 200;
+}
+.weather-forecast-item {
+    font-weight: 200;
+    color:;
+}
+@media only screen and (max-width: 1000px){
+    .forecast{
+        justify-content: start;
+        align-items: none;
+        overflow-x: scroll;
+    }
+}
+
+.popup {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    top: 0;
+    left: 0;
+    opacity: 0;
+    visibility: hidden;
+
+}
+.popup_body {
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px, 10px;
+}
+.popup_content {
+    background-color: #fff;
+    color: #000;
+    max-width: 800px;
+    padding: 40px;
+    position: relative;
+}
+.popup_close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 20px;
+    color: #000;
+    text-decoration: none;
+
+}
+.popup_title {
+    font-size: 20px;
+    margin: 0px 0px 1em 0px;
+}

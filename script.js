@@ -34,11 +34,6 @@ getInput.addEventListener("click", getPositionFromUserInput);
 chosenCity.addEventListener("click", getWeatherForChosenCity);
 recents.addEventListener("click", getWeatherFromRecents);
 
-// todo: alert if city doesn't exist
-// todo: recents with heatmap?
-// todo: layout
-// todo: canvas in header - city landscapes
-// todo: git
 
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
@@ -110,7 +105,6 @@ function getPositionFromUserInput(e) {
             var element = document.querySelector('.popup');
             element.style.opacity = "1";
             element.style.visibility = "visible";
-            //console.log(item.name + ' (' + item.country +')');
         });
     }else {
         console.log(data[0].name + '/' + data[0].country);

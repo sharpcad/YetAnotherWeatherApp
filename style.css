@@ -143,7 +143,7 @@ justify-content: center;
 }
 .weather-forecast-item {
     font-weight: 200;
-    color:;
+    color: #fff;
 }
 @media only screen and (max-width: 1000px){
     .forecast{

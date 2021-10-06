@@ -79,6 +79,11 @@ display: flex;
     font-size: 15px;
     font-weight: 400;
 }
+.fav-btn {
+    background: transparent;
+    color:yellow;
+    border: none;
+}
 .favorites h5{
     font-weight: 100;
     justify-content: center;

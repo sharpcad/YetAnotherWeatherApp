@@ -15,17 +15,22 @@ const currentTemp =document.getElementById('current-temperature');
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const API_KEY = '74884ed210fba6ee274570323d83d028';
+// ------------------------
 let currentLatitude ='';
 let currentLongitude ='';
 
 let placeFromApi = '';
 let countryFromApi = '';
+let favList ='';
 
 const cities = document.querySelector('.cities');
 const recents = document.querySelector('.recents');
+const favs = document.querySelector('.favs');
 const chosenCity = document.querySelector(".cities");
+const favBtn = document.querySelector(".fav-btn");
 let records = [];
 
+let favoritesToSearch = [];
 let favorites = [];
 let favoritesRaw = [];
 
@@ -33,6 +38,125 @@ document.addEventListener("DOMContentLoaded", getPositionFromBrowser);
 getInput.addEventListener("click", getPositionFromUserInput);
 chosenCity.addEventListener("click", getWeatherForChosenCity);
 recents.addEventListener("click", getWeatherFromRecents);
+favs.addEventListener("click", getWeatherFromFavorites);
+favBtn.addEventListener("click", dealWithFavorites);
+
+function setStar(){
+    if (localStorage.getItem("favList") === null) { 
+        favList = []; 
+    } else { //annars
+        favList = JSON.parse(localStorage.getItem("favList")); 
+    }
+    if (favList.some(e => e.txt === placeFromApi + ' - ' + countryFromApi)) {
+        console.log(placeFromApi + ' - ' + countryFromApi + 'exists----------------');
+        const star = document.getElementById('fav-star');
+        star.classList.remove('far');
+        star.classList.add('fas');
+    }else {
+            console.log(placeFromApi + ' - ' + countryFromApi + 'does not exist----------------');
+        const star = document.getElementById('fav-star');
+        star.classList.remove('fas');
+        star.classList.add('far'); 
+        }
+}
+
+
+function dealWithFavorites(e){
+    const element = e.target;
+    if(element.classList.contains('far')){
+        console.log('clicked empty star');
+        addToFavorites();
+    } else{
+        console.log('clicked solid star');
+        removefromFavoritesByStar();
+    }
+    
+}
+
+
+function addToFavorites() {
+    const favoriteCity = new Object();
+
+    favoriteCity["txt"] = placeFromApi + ' - ' + countryFromApi;
+    favoriteCity["city"] = placeFromApi;
+    favoriteCity["country"] = countryFromApi;
+    favoriteCity["lat"] = currentLatitude;
+    favoriteCity["lon"] = currentLongitude;
+
+    if (localStorage.getItem("favList") === null) { 
+        favList = []; 
+    } else { //annars
+        favList = JSON.parse(localStorage.getItem("favList")); 
+    }
+    let flag = false;
+
+    favList.forEach(item => {
+        if(item.txt == (placeFromApi + ' - ' + countryFromApi)){
+            console.log('item is in the list');
+            flag = true;
+        }
+    }
+    )
+    if (!flag){favList.unshift(favoriteCity)}
+    
+    localStorage.setItem("favList", JSON.stringify(favList)); 
+    clearFavDOM();
+    showFavorites();
+    setStar();
+}
+function removefromFavoritesByStar() {
+    if (localStorage.getItem("favList") === null) { 
+        favList = []; 
+    } else {
+        favList = JSON.parse(localStorage.getItem("favList")); 
+    var filtered = favList.filter(function(el) { return el.txt != placeFromApi + ' - ' + countryFromApi; });
+        localStorage.setItem("favList", JSON.stringify(filtered));
+        clearFavDOM();
+        showFavorites();
+        setStar();
+    }
+}
+function removefromFavoritesByTrashBin() {
+
+}
+function showFavorites(){
+    if (localStorage.getItem("favList") === null) 
+    {favList = [];} 
+    else {
+        favList = JSON.parse(localStorage.getItem("favList"));
+    }
+    favList.forEach(item => {
+        var fav = new Object();
+        fav["txt"] = item.txt; 
+        fav["city"] = item.city;
+        fav["country"] = item.country;
+        fav["lat"] = item.lat;
+        fav["lon"] = item.lon;
+        favoritesToSearch.push(fav);
+    })
+
+  
+        console.log(favList);
+        favList.forEach(item => {
+            console.log("favitem from storage ="+item);
+            const divlist= document.createElement("div");
+            divlist.classList.add("listfavdiv");
+    
+            const listItem=document.createElement("li")
+    
+            listItem.innerHTML = item["txt"]; 
+            // const trashButton = document.createElement("button");
+            // trashButton.innerHTML = `<i class="fas fa-trash"></i>`;
+            // trashButton.classList.add("trash-btn");
+            // listItem.appendChild(trashButton);
+            listItem.classList.add("listitem");
+            divlist.appendChild(listItem);
+            favs.appendChild(divlist);
+    
+        })
+    }
+
+
 
 
 var canvas = document.getElementById("myCanvas");
@@ -47,18 +171,41 @@ function getWeatherFromRecents(e){
     console.log("innerhml=   " + item.innerHTML);
     const chosenText = item.innerHTML;
     favorites.forEach(rec => {
-
         if(rec["txt"] == chosenText){
-
             fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${rec["lat"]}&lon=${rec["lon"]}&exclude=hourly,minutely&units=metric&appid=${API_KEY}`).then(res => res.json()).then(data => {
                 console.log(data);
                 console.log("Running API call for LAT/LON from getWeatherFromRecents----------------------------");
+                placeFromApi = rec["city"];
+                countryFromApi = rec["country"];
+                currentLatitude = rec["lat"];
+                currentLongitude = rec["lon"];
+                setStar();
             displayWeather(data, rec["city"], rec["country"]);
             })
         }
-        
     })
-
+}
+function getWeatherFromFavorites(e){
+    const item = e.target;
+    console.log("innerhml=   " + item.innerHTML);
+    const chosenText = item.innerHTML;
+    favList.forEach(rec => {
+        if(rec["txt"] == chosenText){
+            fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${rec["lat"]}&lon=${rec["lon"]}&exclude=hourly,minutely&units=metric&appid=${API_KEY}`).then(res => res.json()).then(data => {
+                console.log(data);
+                console.log("Running API call for LAT/LON from getWeatherFromFavorites----------------------------");
+                placeFromApi = rec["city"];
+                countryFromApi = rec["country"];
+                currentLatitude = rec["lat"];
+                currentLongitude = rec["lon"];
+                setStar();
+                saveToStorage(placeFromApi, countryFromApi, currentLatitude, currentLongitude);
+                clearDOM();
+                loadFromStorageAndDisplayRecents();
+            displayWeather(data, rec["city"], rec["country"]);
+            })
+        }
+    })
 }
 
 function getPositionFromUserInput(e) {
@@ -119,6 +266,8 @@ function getPositionFromUserInput(e) {
             saveToStorage(placeFromApi, countryFromApi, currentLatitude, currentLongitude);
             clearDOM();
             loadFromStorageAndDisplayRecents();
+            setStar();
+
             displayWeather(data, placeFromApi, countryFromApi);
             })
     }   
@@ -141,10 +290,16 @@ function getWeatherForChosenCity(e) {
             console.log("Running API call for LAT/LON from getWeatherForChosenCity----------------------------");
             console.log(data);
             records =[];
+            placeFromApi = rec["city"];
+            countryFromApi = rec["country"];
+            currentLatitude = rec["lat"];
+            currentLongitude = rec["lon"];
             clearDOM();
             saveToStorage(rec["city"], rec["country"], rec["lat"], rec["lon"]);
             clearDOM();
             loadFromStorageAndDisplayRecents();
+            setStar();
+
             displayWeather(data, rec["city"], rec["country"]);
             })
         }
@@ -156,6 +311,11 @@ function getWeatherForChosenCity(e) {
 
 function clearDOM(){
     const elements = document.getElementsByClassName('listdiv'); 
+    while(elements.length > 0){
+        elements[0].parentNode.removeChild(elements[0]);}
+}
+function clearFavDOM(){
+    const elements = document.getElementsByClassName('listfavdiv'); 
     while(elements.length > 0){
         elements[0].parentNode.removeChild(elements[0]);}
 }
@@ -186,11 +346,15 @@ function getPositionFromBrowser() {
         console.log("Running API call for cities from getPositionFromBrowser to get city name and country name----------------------------");    
         placeFromApi = info.city.name;
         countryFromApi = info.city.country;
+        currentLatitude = latitude;
+        currentLongitude = longitude;
         })
     fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&units=metric&appid=${API_KEY}`).then(res => res.json()).then(data => {
         console.log("Running API onecall for cities from getPositionFromBrowser to get data----------------------------");
     console.log(data);
     displayWeather(data, placeFromApi,countryFromApi);
+    setStar();
+    showFavorites();
     loadFromStorageAndDisplayRecents();
     })
     })
@@ -211,7 +375,12 @@ function saveToStorage(city, country, lat, lon){
     } else { //annars
         favoritesRaw = JSON.parse(localStorage.getItem("favoritesRaw")); 
     }
-    favoritesRaw.unshift(storedCity); 
+    if (favoritesRaw.some(e => e.txt === city + ' - ' + country + ' (' +lat+'N ' +lon +'E)')) {
+
+    }else {
+        favoritesRaw.unshift(storedCity); 
+        }
+    
     localStorage.setItem("favoritesRaw", JSON.stringify(favoritesRaw)); 
 
 }
